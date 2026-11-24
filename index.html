@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Концепт лендинга для продавцов одежды (демо-проект)</title>
+<meta name="description" content="Демо-проект: технологичный минимализм, одна акцентная краска, анимации на GSAP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FFFFFF;
+  --paper:#F4F4F2;
+  --black:#0A0A0A;
+  --grey:#6F6F6B;
+  --line:#DCDCD8;
+  --klein:#2438FF;           /* единственный акцент: синий Ива Кляйна */
+  --font:'Manrope',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font:500 17px/1.55 var(--font);background:var(--white);color:var(--black);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--klein);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1200px,100% - 48px);margin-inline:auto}
+
+.demo{background:var(--black);color:#fff;font-size:13px;text-align:center;padding:8px 16px}
+.demo b{color:#8FA0FF}
+
+header.nav{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+header.nav .wrap{display:flex;justify-content:space-between;align-items:center;height:64px}
+.brand{font-weight:800;font-size:20px;letter-spacing:-.03em;text-decoration:none;display:flex;align-items:center;gap:9px}
+.brand i{width:14px;height:14px;background:var(--klein);border-radius:50%}
+.nav a.link{margin-left:28px;text-decoration:none;font-size:15px;color:var(--grey);font-weight:600}
+.nav a.link:hover{color:var(--black)}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:999px;background:var(--black);color:#fff;padding:15px 28px;font-weight:700;font-size:16px;text-decoration:none;transition:background .2s,transform .2s}
+.btn:hover{background:var(--klein);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--black);box-shadow:inset 0 0 0 1.5px var(--black)}
+.btn.ghost:hover{background:var(--black);color:#fff}
+.btn.sm{padding:10px 20px;font-size:14px}
+
+/* HERO */
+.hero{position:relative;padding:72px 0 96px;min-height:calc(100vh - 100px);display:flex;align-items:center}
+.hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+h1{font-weight:800;font-size:clamp(46px,7.6vw,112px);line-height:.94;letter-spacing:-.05em}
+h1 .blue{color:var(--klein)}
+.lead{font-size:clamp(18px,1.6vw,22px);color:var(--grey);max-width:30em;margin:28px 0 36px}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.hl{display:block;overflow:hidden}
+.hl>span{display:block}
+
+/* бирка – главная фишка */
+.tagwrap{position:relative;height:520px;display:flex;justify-content:center}
+.thread{position:absolute;top:0;left:50%;width:2px;height:90px;background:var(--black);transform:translateX(-50%)}
+.tag{position:absolute;top:86px;left:50%;width:270px;margin-left:-135px;transform-origin:50% -86px;animation:swing 5s ease-in-out infinite}
+.tag-in{background:var(--black);color:#fff;border-radius:22px;padding:30px 28px 28px;position:relative;box-shadow:0 30px 60px rgba(10,10,10,.28)}
+.tag-in::before{content:"";position:absolute;top:16px;left:50%;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--white)}
+.tag-k{margin-top:26px;font-size:13px;color:#9A9A96;font-weight:600}
+.tag-n{font-weight:800;font-size:68px;line-height:1;letter-spacing:-.05em;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.tag-u{font-size:15px;color:#C9C9C5}
+.tag-bar{height:6px;background:#2B2B2B;border-radius:3px;margin-top:22px;overflow:hidden}
+.tag-bar i{display:block;height:100%;width:0;background:var(--klein)}
+@keyframes swing{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+
+/* лента с цифрами */
+.facts{border-block:1px solid var(--line)}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.fact{padding:34px 24px;border-right:1px solid var(--line)}
+.fact:first-child{padding-left:0}
+.fact:last-child{border-right:0}
+.fact b{display:block;font-weight:800;font-size:44px;letter-spacing:-.04em;line-height:1}
+.fact span{color:var(--grey);font-size:15px}
+
+/* BENTO */
+section{padding:110px 0}
+h2{font-weight:800;font-size:clamp(34px,5vw,68px);line-height:1;letter-spacing:-.045em;max-width:14em}
+.sub{color:var(--grey);max-width:30em;margin-top:18px}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(190px,auto);gap:16px;margin-top:56px}
+.cell{border-radius:26px;padding:30px;background:var(--paper);position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.cell:hover{transform:translateY(-6px)}
+.cell h3{font-weight:800;font-size:24px;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px}
+.cell p{color:var(--grey);font-size:16px}
+.c1{grid-column:span 3;grid-row:span 2;background:var(--black);color:#fff}
+.c1 p{color:#B7B7B3}
+.c2{grid-column:span 3}
+.c3{grid-column:span 2;background:var(--klein);color:#fff}
+.c3 p{color:#D6DBFF}
+.c4{grid-column:span 1;display:grid;place-items:center;text-align:center}
+.c4 b{font-weight:800;font-size:48px;letter-spacing:-.04em}
+.glass{position:absolute;right:22px;bottom:22px;left:22px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(14px);border-radius:18px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
+.glass span{font-size:14px;color:#D9D9D5}
+.glass b{font-size:26px;font-weight:800;letter-spacing:-.03em}
+.dots{display:flex;gap:6px;margin-top:18px}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--black);opacity:.15}
+.dots i:nth-child(-n+3){opacity:1;background:var(--klein)}
+
+/* пошагово: закреплённый блок */
+.steps{background:var(--black);color:#fff;padding:0}
+.pin{min-height:100vh;display:grid;align-items:center}
+.pin .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.bignum{font-weight:800;font-size:clamp(140px,26vw,360px);line-height:.85;letter-spacing:-.07em;color:var(--klein)}
+.step-copy h2{font-size:clamp(30px,4vw,54px)}
+.step-copy p{color:#B7B7B3;margin-top:20px;max-width:26em;font-size:19px}
+.prog{display:flex;gap:8px;margin-top:34px}
+.prog i{height:4px;flex:1;background:#2B2B2B;border-radius:2px;overflow:hidden}
+.prog i b{display:block;height:100%;width:0;background:#fff}
+
+/* CTA */
+.cta{text-align:left}
+.cta h2{max-width:11em}
+.cta .row{margin-top:36px}
+footer{border-top:1px solid var(--line);padding:30px 0;font-size:14px;color:var(--grey)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+@media(max-width:900px){
+  .nav a.link{display:none}
+  .hero .wrap,.pin .wrap{grid-template-columns:1fr}
+  .tagwrap{height:420px;order:-1;transform:scale(.8)}
+  .facts .wrap{grid-template-columns:1fr 1fr}
+  .fact:nth-child(2){border-right:0}
+  .fact:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .fact:first-child{padding-left:24px}
+  .bento{grid-template-columns:1fr 1fr}
+  .c1,.c2{grid-column:span 2}
+  .c3{grid-column:span 2}
+  .c4{grid-column:span 2}
+  section{padding:76px 0}
+  .bignum{font-size:42vw}
+}
+@media(prefers-reduced-motion:reduce){
+  .tag{animation:none}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="demo"><b>Демо-проект.</b> Концепт в стиле «технологичный минимализм» для показа. Тексты и цифры – пример, не реальные данные.</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><i></i>Витрина</a>
+    <nav><a class="link" href="#bento">Возможности</a><a class="link" href="#steps">Как начать</a><a class="btn sm" href="#cta">Подключиться</a></nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1><span class="hl"><span>Продавайте</span></span><span class="hl"><span>одежду там,</span></span><span class="hl"><span>где её <em class="blue" style="font-style:normal">ищут</em></span></span></h1>
+      <p class="lead">Платформа для продавцов: подключение за день, прозрачные выплаты и аналитика по каждой позиции.</p>
+      <div class="row"><a class="btn" href="#cta">Стать продавцом</a><a class="btn ghost" href="#bento">Смотреть возможности</a></div>
+    </div>
+    <div class="tagwrap" aria-hidden="true">
+      <div class="thread"></div>
+      <div class="tag"><div class="tag-in">
+        <div class="tag-k">Продано за месяц</div>
+        <div class="tag-n"><span id="count">0</span></div>
+        <div class="tag-u">позиций у одного продавца</div>
+        <div class="tag-bar"><i id="bar"></i></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<div class="facts"><div class="wrap">
+  <div class="fact"><b>1 день</b><span>на подключение</span></div>
+  <div class="fact"><b>7 дней</b><span>цикл выплат</span></div>
+  <div class="fact"><b>0 ₽</b><span>за размещение карточек</span></div>
+  <div class="fact"><b>24/7</b><span>панель продаж</span></div>
+</div></div>
+
+<section id="bento">
+  <div class="wrap">
+    <h2>Всё для продавца на одной странице</h2>
+    <p class="sub">Карточки, остатки, заказы и выплаты в одном кабинете.</p>
+    <div class="bento">
+      <article class="cell c1">
+        <h3>Аналитика по каждой позиции</h3>
+        <p>Видно, что смотрят, что кладут в корзину и на каком размере уходят покупатели.</p>
+        <div class="glass"><span>Конверсия в покупку</span><b id="conv">0%</b></div>
+      </article>
+      <article class="cell c2">
+        <h3>Карточки без рутины</h3>
+        <p>Загрузите таблицу, и каталог готов. Фото, размеры и описания подтянутся автоматически.</p>
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </article>
+      <article class="cell c3">
+        <h3>Выплаты раз в неделю</h3>
+        <p>Деньги приходят по расписанию, детали по каждому заказу в отчёте.</p>
+      </article>
+      <article class="cell c4"><div><b>4,8</b><p>оценка продавцов</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="steps" id="steps">
+  <div class="pin">
+    <div class="wrap">
+      <div class="bignum" id="bignum" aria-hidden="true">1</div>
+      <div class="step-copy">
+        <h2 id="stTitle">Оставьте заявку</h2>
+        <p id="stText">Расскажите, что продаёте. Менеджер свяжется в тот же день и подскажет, с чего начать.</p>
+        <div class="prog" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="wrap">
+    <h2>Первые продажи уже на этой неделе</h2>
+    <p class="sub">Оставьте контакт, и мы вернёмся с подключением в течение дня.</p>
+    <div class="row"><a class="btn" href="#top">Стать продавцом</a><a class="btn ghost" href="#bento">Вернуться к возможностям</a></div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>Витрина – демо-концепт</span><span>Не является рабочим сайтом компании</span></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const count=document.getElementById('count'),bar=document.getElementById('bar'),conv=document.getElementById('conv');
+  const fmt=n=>Math.round(n).toLocaleString('ru-RU');
+  const STEPS=[
+    ['1','Оставьте заявку','Расскажите, что продаёте. Менеджер свяжется в тот же день и подскажет, с чего начать.'],
+    ['2','Загрузите каталог','Пришлите таблицу или выгрузку: карточки соберутся сами, останется проверить фото и цены.'],
+    ['3','Получайте заказы','Покупатели находят товары на витрине, а выплаты приходят раз в неделю.']
+  ];
+  if(!window.gsap||reduce){
+    count.textContent=fmt(1284);bar.style.width='72%';conv.textContent='4,2%';return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+
+  // 1. заход: заголовок по строкам, один раз
+  gsap.from('.hl>span',{yPercent:110,duration:1,ease:'power4.out',stagger:.12});
+  gsap.from('.lead,.hero .row',{opacity:0,y:20,duration:.8,delay:.7,stagger:.1});
+  gsap.from('.tagwrap',{y:-160,opacity:0,duration:1.2,ease:'elastic.out(1,.6)',delay:.3});
+
+  // 2. счётчик на бирке: набирает цифру по мере прокрутки первого экрана
+  const o={v:0};
+  gsap.to(o,{v:1284,duration:2.2,ease:'power2.out',delay:.9,onUpdate:()=>{count.textContent=fmt(o.v);bar.style.width=(o.v/1284*72)+'%'}});
+
+  // 3. параллакс бирки при прокрутке
+  gsap.to('.tagwrap',{yPercent:18,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+
+  // 4. bento: конверсия считается, когда блок виден
+  const c={v:0};
+  ScrollTrigger.create({trigger:'#bento',start:'top 70%',once:true,onEnter:()=>{
+    gsap.to(c,{v:4.2,duration:1.6,ease:'power2.out',onUpdate:()=>conv.textContent=c.v.toFixed(1).replace('.',',')+'%'});
+    gsap.from('.cell',{y:50,opacity:0,duration:.9,ease:'power3.out',stagger:.1});
+  }});
+
+  // 5. закреплённые шаги: цифра, заголовок и текст меняются от прокрутки
+  const bn=document.getElementById('bignum'),tt=document.getElementById('stTitle'),tx=document.getElementById('stText');
+  const bars=[...document.querySelectorAll('.prog i b')];
+  let cur=0;
+  function show(i){
+    if(i===cur)return;cur=i;
+    gsap.fromTo([bn,tt,tx],{opacity:0,y:30},{opacity:1,y:0,duration:.5,stagger:.06,ease:'power3.out'});
+    bn.textContent=STEPS[i][0];tt.textContent=STEPS[i][1];tx.textContent=STEPS[i][2];
+  }
+  ScrollTrigger.create({trigger:'.steps',start:'top top',end:'+=220%',pin:'.pin',scrub:true,onUpdate:s=>{
+    const p=s.progress*3;
+    bars.forEach((b,i)=>{b.style.width=Math.min(Math.max(p-i,0),1)*100+'%'});
+    show(Math.min(2,Math.floor(p)));
+  }});
+})();
+</script>
+</body>
+</html>
